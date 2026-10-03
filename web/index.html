@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Aegis — Security automation that stays awake</title>
+<meta name="description" content="Twelve detection engines, one pipeline, automatic response. Aegis watches your domains, logins, cloud, and code around the clock. Run a live attack simulation.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+
+<header class="site-nav">
+  <a class="brand" href="#why"><img src="assets/mark.svg" alt="Aegis mark">AEGIS</a>
+  <nav class="nav-links" aria-label="Sections">
+    <a class="nav-link" href="#why">Why</a>
+    <a class="nav-link" href="#ops">Ops</a>
+    <a class="nav-link" href="#simulator">Simulator</a>
+    <a class="nav-link" href="#engines">Engines</a>
+    <a class="nav-link" href="#pipeline">Pipeline</a>
+    <a class="nav-link" href="#roi">ROI</a>
+    <a class="nav-link" href="#engineers">Engineers</a>
+  </nav>
+  <a class="repo-link" href="https://github.com/rawmware/SECURITY-AUTOMATIONS-2" target="_blank" rel="noopener">GITHUB →</a>
+</header>
+
+<main>
+
+  <!-- ============ WHY ============ -->
+  <section id="why" class="block">
+    <div class="wrap">
+      <p class="kicker reveal">What this is</p>
+      <h1 class="reveal">It’s 3:12 AM.<br>Someone is testing your doors.</h1>
+      <div class="beats">
+        <p class="beat reveal">Right now, automated scanners are knocking on every internet-connected system you own. Not a person — software, running thousands of probes an hour, looking for the one door you forgot.</p>
+        <p class="beat reveal">Your firewall saw <strong>40,000</strong> probes today. A human reviewed <strong>12</strong>.</p>
+        <p class="beat reveal">That’s the gap. It’s not a lack of tools — it’s a lack of attention. Nobody can watch 40,000 probes. Nobody should have to.</p>
+        <p class="beat final reveal">Aegis is <span class="amber">the part that stays awake.</span></p>
+      </div>
+      <p class="lede reveal">Twelve specialized detection engines watch your domains, logins, cloud, and code around the clock. They score what they find, stitch related findings into cases, and respond with playbooks — <strong>before your coffee’s ready.</strong></p>
+      <div class="cta-row reveal">
+        <button class="btn-primary" id="cta-watch">Watch it work</button>
+        <a class="btn-ghost" href="#simulator">Skip to the simulator</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OPS ============ -->
+  <section id="ops" class="block">
+    <div class="wrap">
+      <p class="kicker reveal">Live ops view</p>
+      <h2 class="reveal">One screen. Everything awake.</h2>
+      <p class="lede reveal">This is what the night shift looks like: your infrastructure as a constellation, and every finding the engines produce, scored and streamed as it happens. The faint drift is real internet background radiation — the constant scan chatter every public IP endures.</p>
+      <div class="ops-grid reveal">
+        <div class="canvas-wrap">
+          <canvas id="scene"></canvas>
+          <div class="ops-legend">
+            <span><i style="background:#8A8F98"></i>probe</span>
+            <span><i style="background:#E5484D"></i>attack</span>
+            <span><i style="background:#E8A33D"></i>intercept</span>
+          </div>
+        </div>
+        <aside class="ops-side">
+          <div class="threat-box">
+            <div class="threat-top">
+              <span class="mono-label" style="margin:0">Threat level</span>
+              <span id="threat-label">nominal</span>
+            </div>
+            <div class="threat-bar"><div id="threat-fill"></div></div>
+          </div>
+          <div class="feed-head">
+            <span class="mono-label" style="margin:0">Findings feed</span>
+            <span id="sim-status">nominal</span>
+          </div>
+          <div id="findings-feed" aria-live="polite"></div>
+        </aside>
+      </div>
+      <div class="ticker reveal" aria-hidden="true"><div class="ticker-inner" id="ticker-inner"></div></div>
+    </div>
+  </section>
+
+  <!-- ============ SIMULATOR ============ -->
+  <section id="simulator" class="block">
+    <div class="wrap">
+      <p class="kicker reveal">Hands on</p>
+      <h2 class="reveal">Run an attack. Watch the defense.</h2>
+      <p class="lede reveal">Pick a campaign. Each one replays a realistic attack across ~20 seconds: engines fire, findings stream with scores, related findings get stitched into a case, and a response playbook executes. On autopilot it just happens; turn autopilot off and every playbook step asks for your approval.</p>
+      <div class="scenario-grid reveal" id="scenario-grid"></div>
+      <div class="run-row reveal">
+        <button id="run-btn">Run scenario</button>
+        <label class="autopilot"><input type="checkbox" id="autopilot-toggle" checked> autopilot <span id="autopilot-state">on</span></label>
+      </div>
+      <div id="case-banner"></div>
+      <div id="playbook-panel" class="reveal"></div>
+    </div>
+  </section>
+
+  <!-- ============ ENGINES ============ -->
+  <section id="engines" class="block">
+    <div class="wrap">
+      <p class="kicker reveal">Anatomy</p>
+      <h2 class="reveal">Twelve engines. One job each.</h2>
+      <p class="lede reveal">An engine is a small, focused detector: <span class="mono">scan(ctx) → list[Finding]</span>. No monolith, no black box. Pick one to see what it does, how it thinks, and the actual code shape it ships in.</p>
+      <div class="engines-layout reveal">
+        <div id="engine-grid" role="tablist" aria-label="Detection engines"></div>
+        <div id="engine-detail" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PIPELINE ============ -->
+  <section id="pipeline" class="block">
+    <div class="wrap">
+      <p class="kicker reveal">Under the hood</p>
+      <h2 class="reveal">From raw signal to response, in seven stages.</h2>
+      <p class="lede reveal">Engines produce findings. The pipeline turns findings into action — and it’s the pipeline that kills alert fatigue: most of what engines notice never reaches a human, because dedupe and correlation already handled it.</p>
+      <div id="pipeline-stages" class="reveal"></div>
+      <div class="trace-row reveal">
+        <button id="trace-btn">Trace a finding</button>
+        <span class="mono-label" style="margin:0">watch one finding walk all seven stages, with live values</span>
+      </div>
+      <div id="trace-log" class="reveal" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ============ ROI ============ -->
+  <section id="roi" class="block">
+    <div class="wrap">
+      <p class="kicker reveal">The math</p>
+      <h2 class="reveal">What does the night shift cost?</h2>
+      <p class="lede reveal">Security automation isn’t about replacing analysts — it’s about spending their hours on cases instead of triage. Adjust the numbers to yours. Every step of the math is shown.</p>
+      <div class="roi-grid reveal">
+        <div class="roi-inputs">
+          <div class="roi-field">
+            <label for="roi-incidents">Security incidents / year</label>
+            <input id="roi-incidents" type="number" min="0" step="1" value="1">
+          </div>
+          <div class="roi-field">
+            <label for="roi-breach">Average breach cost ($)</label>
+            <input id="roi-breach" type="number" min="0" step="1000" value="250000">
+          </div>
+          <div class="roi-field">
+            <label for="roi-hourly">Analyst hourly cost ($)</label>
+            <input id="roi-hourly" type="number" min="0" step="1" value="85">
+          </div>
+          <button id="roi-calc">Calculate</button>
+        </div>
+        <div id="roi-output" aria-live="polite"></div>
+      </div>
+      <ul id="roi-assumptions"></ul>
+    </div>
+  </section>
+
+  <!-- ============ ENGINEERS ============ -->
+  <section id="engineers" class="block">
+    <div class="wrap">
+      <p class="kicker reveal">For engineers</p>
+      <h2 class="reveal">This demo is a mirror. The platform is Python.</h2>
+      <p class="lede reveal">Everything you just watched — the severity bands, the scoring math, the correlation, the playbooks — runs for real in the repo. The demo’s JavaScript is a line-by-line port of the Python pipeline, so what you see here is what you get there. No mockups of vaporware.</p>
+      <div class="eng-layout">
+        <div class="reveal">
+          <span class="mono-label">Repository layout</span>
+          <div class="repo-tree"><span class="dir">SECURITY-AUTOMATIONS-2/</span>
+├── <span class="dir">aegis/</span>                  <span class="hl">the platform</span>
+│   ├── <span class="dir">engines/</span>             12 detection engines
+│   │   ├── base.py          Engine contract: scan(ctx)
+│   │   ├── typo_watch.py
+│   │   ├── auth_watch.py
+│   │   └── <span class="hl">… 9 more</span>
+│   ├── <span class="dir">pipeline/</span>            normalize → respond
+│   ├── <span class="dir">playbooks/</span>           response runbooks as code
+│   ├── models.py bus.py
+│   └── config.py utils.py
+├── <span class="dir">web/</span>                    <span class="hl">this demo (static site)</span>
+├── <span class="dir">tests/</span>                  hermetic, no network
+└── docker-compose.yml</div>
+        </div>
+        <div class="reveal">
+          <span class="mono-label">Run the real engines locally</span>
+          <ol class="steps-list">
+            <li>
+              <p>Clone the repo and install.</p>
+              <pre class="code"><code>git clone https://github.com/rawmware/SECURITY-AUTOMATIONS-2.git
+cd SECURITY-AUTOMATIONS-2
+pip install -e .</code></pre>
+            </li>
+            <li>
+              <p>Point it at your targets. One YAML file: domains, zones, hosts, repos, cloud accounts.</p>
+              <pre class="code"><code>cp targets.example.yaml targets.yaml
+$EDITOR targets.yaml</code></pre>
+            </li>
+            <li>
+              <p>Run a scan. Engines execute, the pipeline scores and correlates, findings land as JSON.</p>
+              <pre class="code"><code>aegis scan --targets targets.yaml --out findings.json</code></pre>
+            </li>
+            <li>
+              <p>Or bring up the whole stack — scheduler, dashboard, alerting.</p>
+              <pre class="code"><code>docker compose up</code></pre>
+            </li>
+          </ol>
+          <p style="margin-top:1.6rem"><a href="https://github.com/rawmware/SECURITY-AUTOMATIONS-2" target="_blank" rel="noopener">Open the repository →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="mono">AEGIS · SECURITY AUTOMATION PLATFORM · V2.0.0</span>
+    <span>Demo findings are synthetic. The engines are real. <a href="https://github.com/rawmware/SECURITY-AUTOMATIONS-2" target="_blank" rel="noopener">Read the code.</a></span>
+  </div>
+</footer>
+
+<script src="js/engines-data.js" defer></script>
+<script src="js/sim.js" defer></script>
+<script src="js/scenarios.js" defer></script>
+<script src="js/tour.js" defer></script>
+<script src="js/roi.js" defer></script>
+<script type="module" src="js/scene3d.js"></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
