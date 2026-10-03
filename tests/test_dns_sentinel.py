@@ -3,7 +3,6 @@
 from aegis.engines.base import ScanContext
 from aegis.engines.dns_sentinel import DnsSentinel
 
-
 BASELINE = {
     "www.example.com": {
         "A": ["93.184.216.34"],
@@ -42,9 +41,7 @@ def test_no_drift_no_findings():
 
 
 def test_a_record_change_scores_55():
-    ctx = make_ctx(
-        _current_from_baseline({("www.example.com", "A"): ["203.0.113.9"]})
-    )
+    ctx = make_ctx(_current_from_baseline({("www.example.com", "A"): ["203.0.113.9"]}))
     findings = DnsSentinel().scan(ctx)
     assert len(findings) == 1
     f = findings[0]
@@ -103,7 +100,9 @@ def test_new_host_scores_55():
 
 
 def test_new_host_with_no_records_no_finding():
-    ctx = make_ctx(_current_from_baseline(), hosts=("www.example.com", "ghost.example.com"))
+    ctx = make_ctx(
+        _current_from_baseline(), hosts=("www.example.com", "ghost.example.com")
+    )
     assert DnsSentinel().scan(ctx) == []
 
 
