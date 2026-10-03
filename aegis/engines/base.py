@@ -23,15 +23,15 @@ class ScanContext:
     targets: dict = field(default_factory=dict)
     options: dict = field(default_factory=dict)
     # --- injectable I/O hooks (overridden in tests / demo) ---
-    dns_resolve: Callable[[str, str], list] = field(
-        default=lambda host, rtype: []
-    )
+    dns_resolve: Callable[[str, str], list] = field(default=lambda host, rtype: [])
     http_get: Callable[[str], dict] = field(default=lambda url: {})
     read_file: Callable[[str], str] = field(default=lambda path: "")
     now_iso: Callable[[], str] = field(
-        default=lambda: __import__("datetime").datetime.now(
-            __import__("datetime").timezone.utc
-        ).isoformat()
+        default=lambda: (
+            __import__("datetime")
+            .datetime.now(__import__("datetime").timezone.utc)
+            .isoformat()
+        )
     )
     data: dict = field(default_factory=dict)  # scenario/sim inputs
 
