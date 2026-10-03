@@ -272,7 +272,7 @@ footer .mono { font-size: 0.7rem; letter-spacing: 0.12em; }
   opacity: 0; transition: opacity 0.25s ease;
 }
 .tour-overlay.tour-visible { opacity: 1; }
-.tour-overlay.tour-leaving { opacity: 0; }
+.tour-overlay.tour-leaving { opacity: 0; pointer-events: none; }
 .tour-card {
   background: var(--ink-2); border: 1px solid var(--hair); border-radius: 12px;
   max-width: 480px; width: 100%; padding: 1.8rem;
