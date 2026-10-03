@@ -76,8 +76,10 @@ class PlaybookEngine:
         if not isinstance(trigger, dict):
             raise err("'trigger' must be a mapping")
         engines = trigger.get("engines")
-        if not isinstance(engines, list) or not engines or not all(
-            isinstance(e, str) and e.strip() for e in engines
+        if (
+            not isinstance(engines, list)
+            or not engines
+            or not all(isinstance(e, str) and e.strip() for e in engines)
         ):
             raise err("'trigger.engines' must be a non-empty list of strings")
         min_sev = trigger.get("min_severity")
@@ -110,16 +112,12 @@ class PlaybookEngine:
             return None
         for pb in self.library:
             trg = pb["trigger"]
-            if engine in trg["engines"] and rank >= _severity_rank(
-                trg["min_severity"]
-            ):
+            if engine in trg["engines"] and rank >= _severity_rank(trg["min_severity"]):
                 return pb
         return None
 
     # -- execution --------------------------------------------------------
-    def run(
-        self, playbook: dict, trigger: dict, dry_run: bool = True
-    ) -> PlaybookRun:
+    def run(self, playbook: dict, trigger: dict, dry_run: bool = True) -> PlaybookRun:
         """Execute a playbook's steps in order via ``ACTIONS``.
 
         Params are templated from the trigger (``{ip}``-style placeholders
@@ -140,8 +138,7 @@ class PlaybookEngine:
         for step in playbook["steps"]:
             name = step["action"]
             rendered = {
-                k: _render(v, context)
-                for k, v in (step.get("params") or {}).items()
+                k: _render(v, context) for k, v in (step.get("params") or {}).items()
             }
             approval_required = bool(step.get("approval_required", False))
             approved = not approval_required
