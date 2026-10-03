@@ -105,9 +105,7 @@ class TlsWatch(Engine):
                                     "not_after": not_after_raw,
                                     "days_remaining": round(days, 2),
                                 },
-                                recommendation=(
-                                    f"Put {host} on the renewal calendar."
-                                ),
+                                recommendation=(f"Put {host} on the renewal calendar."),
                                 tags=["tls", "expiry"],
                             )
                         )
