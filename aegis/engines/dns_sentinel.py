@@ -48,7 +48,11 @@ class DnsSentinel(Engine):
                             title=f"New host discovered outside baseline: {host}",
                             score=55,
                             entities={"host": host},
-                            evidence={"host": host, "current": current, "new_host": True},
+                            evidence={
+                                "host": host,
+                                "current": current,
+                                "new_host": True,
+                            },
                             recommendation=(
                                 f"Verify {host} is an authorized asset. If not, "
                                 "it may be a shadow IT deployment or an "
