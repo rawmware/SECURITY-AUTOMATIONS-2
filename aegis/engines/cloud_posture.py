@@ -80,7 +80,9 @@ class CloudPosture(Engine):
                 if port in SENSITIVE_PORTS and cidr in WORLD_CIDRS:
                     out.append(
                         self.finding(
-                            title=f"Security group {sg_id}: port {port} open to the world",
+                            title=(
+                                f"Security group {sg_id}: port {port} open to the world"
+                            ),
                             score=90,
                             entities={"security_group": sg_id, "port": port},
                             evidence={"ingress": {"port": port, "cidr": cidr}},
