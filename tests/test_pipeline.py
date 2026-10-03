@@ -71,9 +71,7 @@ def test_normalize_parses_iso_ts():
 
 
 def test_normalize_lowercases_kind_and_maps_keys():
-    event = normalize_event(
-        {"type": "BruteForce", "entities": {"ip": "1.2.3.4"}}
-    )
+    event = normalize_event({"type": "BruteForce", "entities": {"ip": "1.2.3.4"}})
     assert event["kind"] == "bruteforce"
     assert event["entities"] == {"ip": "1.2.3.4"}
 
@@ -250,7 +248,10 @@ def test_alert_threshold_filtering():
     cfg = AegisConfig(alert_threshold=70.0)
     sent = []
     alerts = route(
-        [make_scored(score=90.6, severity="critical"), make_scored(score=50.0, severity="medium")],
+        [
+            make_scored(score=90.6, severity="critical"),
+            make_scored(score=50.0, severity="medium"),
+        ],
         cfg,
         lambda alert: sent.append(alert) or True,
     )
