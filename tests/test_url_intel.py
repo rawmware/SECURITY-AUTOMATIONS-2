@@ -92,8 +92,10 @@ def test_min_score_option_override():
 def test_score_capped_at_100():
     url = (
         "http://192.0.2.10@xn--evil-4ve.zip/login/verify/wallet?"
-        + "q=" + "x" * 130
-        + "&pad=" + "y" * 100
+        + "q="
+        + "x" * 130
+        + "&pad="
+        + "y" * 100
     )
     ctx = make_ctx([url], redirects_map={url: ["https://a.test", "https://b.test"]})
     findings = UrlIntel().scan(ctx)
