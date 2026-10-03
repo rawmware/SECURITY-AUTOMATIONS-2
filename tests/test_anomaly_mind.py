@@ -1,7 +1,7 @@
 """Hermetic tests for anomaly_mind."""
 
-from aegis.engines.base import ScanContext
 from aegis.engines.anomaly_mind import AnomalyMind
+from aegis.engines.base import ScanContext
 
 
 def ctx(series_map, **options):
@@ -39,8 +39,24 @@ def test_flatline_informational():
 
 
 def test_steady_noisy_series_clean():
-    series = [100.0, 102.0, 98.0, 101.0, 99.0, 103.0, 97.0, 100.0,
-              101.0, 99.0, 100.0, 102.0, 98.0, 100.0, 101.0, 99.0]
+    series = [
+        100.0,
+        102.0,
+        98.0,
+        101.0,
+        99.0,
+        103.0,
+        97.0,
+        100.0,
+        101.0,
+        99.0,
+        100.0,
+        102.0,
+        98.0,
+        100.0,
+        101.0,
+        99.0,
+    ]
     f = AnomalyMind().scan(ctx({"requests": series}))
     assert f == []
 
