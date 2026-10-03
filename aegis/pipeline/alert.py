@@ -69,9 +69,7 @@ def route(
 def format_slack(scored: ScoredFinding) -> dict:
     """Build a Slack Block Kit payload for a scored finding."""
     f = scored.finding
-    entities = (
-        ", ".join(f"{k}={v}" for k, v in f.entities.items()) or "none"
-    )
+    entities = ", ".join(f"{k}={v}" for k, v in f.entities.items()) or "none"
     return {
         "text": f"[AEGIS] {scored.adjusted_severity}: {f.title}",
         "blocks": [
@@ -112,9 +110,7 @@ def format_discord(scored: ScoredFinding) -> dict:
     """Build a Discord webhook payload (embed) for a scored finding."""
     f = scored.finding
     entities = ", ".join(f"{k}={v}" for k, v in f.entities.items()) or "none"
-    evidence = "\n".join(
-        f"{k}: {v}" for k, v in list(f.evidence.items())[:3]
-    ) or "none"
+    evidence = "\n".join(f"{k}: {v}" for k, v in list(f.evidence.items())[:3]) or "none"
     return {
         "embeds": [
             {
