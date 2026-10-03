@@ -6,8 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from aegis.soar import ACTIONS, AUDIT_LOG, PlaybookEngine, get_audit_log
-from aegis.soar import actions
+from aegis.soar import ACTIONS, AUDIT_LOG, PlaybookEngine, actions, get_audit_log
 
 LIBRARY_DIR = Path(__file__).resolve().parent.parent / "aegis" / "soar" / "library"
 
@@ -109,9 +108,7 @@ def test_library_loads_all_six_with_valid_schema(engine):
 
 
 def test_load_library_rejects_bad_schema(tmp_path):
-    (tmp_path / "bad.yml").write_text(
-        "name: broken\nsteps: []\n", encoding="utf-8"
-    )
+    (tmp_path / "bad.yml").write_text("name: broken\nsteps: []\n", encoding="utf-8")
     with pytest.raises(ValueError, match="invalid playbook"):
         PlaybookEngine(tmp_path)
 
@@ -131,9 +128,7 @@ def test_match_returns_playbook(engine):
 
 def test_match_rejects_wrong_engine_and_low_severity(engine):
     assert (
-        engine.match(
-            {"engine": "dns_sentinel", "severity": "critical", "entities": {}}
-        )
+        engine.match({"engine": "dns_sentinel", "severity": "critical", "entities": {}})
         is None
     )
     # medium is below the brute-force playbook's high minimum
@@ -151,9 +146,7 @@ def test_match_rejects_wrong_engine_and_low_severity(engine):
 
 # -- execution ------------------------------------------------------------
 def test_run_executes_steps_with_templating(engine):
-    pb = engine.match(
-        {"engine": "auth_watch", "severity": "high", "entities": {}}
-    )
+    pb = engine.match({"engine": "auth_watch", "severity": "high", "entities": {}})
     trigger = {
         "engine": "auth_watch",
         "severity": "high",
@@ -174,9 +167,7 @@ def test_run_executes_steps_with_templating(engine):
 
 
 def test_run_records_approval_required(engine):
-    pb = engine.match(
-        {"engine": "phish_kit", "severity": "high", "entities": {}}
-    )
+    pb = engine.match({"engine": "phish_kit", "severity": "high", "entities": {}})
     trigger = {
         "engine": "phish_kit",
         "severity": "high",
@@ -201,7 +192,9 @@ def test_run_unknown_action_gives_partial_and_continues(engine):
             {"action": "notify", "params": {"channel": "soc", "message": "hi"}},
         ],
     }
-    run = engine.run(pb, {"engine": "auth_watch", "severity": "high", "entities": {}}, dry_run=True)
+    run = engine.run(
+        pb, {"engine": "auth_watch", "severity": "high", "entities": {}}, dry_run=True
+    )
     assert run.status == "partial"
     assert run.steps[0]["result"].startswith("error:")
     assert run.steps[1]["result"].startswith("would execute:")
