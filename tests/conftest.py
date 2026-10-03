@@ -40,9 +40,7 @@ BRAND = "example.test"
 def typo_sim(n: int = 2) -> tuple[dict, dict]:
     """(targets, sim_data) that make typo_watch emit exactly ``n`` findings."""
     cands = sorted(
-        c
-        for c in generate_candidates(BRAND)
-        if "example" in c and c != BRAND
+        c for c in generate_candidates(BRAND) if "example" in c and c != BRAND
     )[:n]
     assert len(cands) == n, "need deterministic typo candidates"
     return {"brand_domain": BRAND}, {"ct_log": list(cands)}
