@@ -104,7 +104,12 @@ def test_finding_to_dict_shape():
 
 
 def test_scored_finding_to_dict_shape():
-    f = Finding(engine="auth_watch", title="Password spray detected", severity="high", score=80.0)
+    f = Finding(
+        engine="auth_watch",
+        title="Password spray detected",
+        severity="high",
+        score=80.0,
+    )
     sf = ScoredFinding(
         finding=f,
         adjusted_score=85.55,
@@ -120,8 +125,15 @@ def test_scored_finding_to_dict_shape():
 
 
 def test_case_to_dict_shape():
-    f1 = Finding(engine="canary_trip", title="Canary token touched", severity="critical", score=95.0)
-    f2 = Finding(engine="auth_watch", title="Spray from same IP", severity="high", score=80.0)
+    f1 = Finding(
+        engine="canary_trip",
+        title="Canary token touched",
+        severity="critical",
+        score=95.0,
+    )
+    f2 = Finding(
+        engine="auth_watch", title="Spray from same IP", severity="high", score=80.0
+    )
     c = Case(
         title="Active intrusion campaign",
         findings=[f1, f2],
@@ -153,7 +165,15 @@ def test_alert_defaults_undelivered():
     assert a.delivered is False
     assert a.severity == "medium"
     d = a.to_dict()
-    assert set(d) == {"id", "channel", "target", "subject", "severity", "delivered", "ts"}
+    assert set(d) == {
+        "id",
+        "channel",
+        "target",
+        "subject",
+        "severity",
+        "delivered",
+        "ts",
+    }
     assert d["id"].startswith("alrt-")
 
 
