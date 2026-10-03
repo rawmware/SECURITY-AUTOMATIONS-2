@@ -38,9 +38,7 @@ def mint_canary(kind: str = "aws") -> dict:
         token = "canary_svc_" + secrets.token_hex(6)
     else:  # "aws" (default)
         kind = "aws"
-        token = "AKIA" + "".join(
-            secrets.choice(_ALNUM_UPPER) for _ in range(16)
-        )
+        token = "AKIA" + "".join(secrets.choice(_ALNUM_UPPER) for _ in range(16))
     return {"id": new_id("canary"), "kind": kind, "token": token}
 
 
