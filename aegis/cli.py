@@ -87,7 +87,9 @@ def cmd_version(args: argparse.Namespace) -> int:  # noqa: ARG001
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="aegis", description="Aegis security automation")
+    parser = argparse.ArgumentParser(
+        prog="aegis", description="Aegis security automation"
+    )
     sub = parser.add_subparsers(dest="command", required=True)
 
     p = sub.add_parser("engines", help="list the engine fleet")
@@ -96,8 +98,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("scan", help="run a scan and emit findings JSON")
     p.add_argument("--config", default=None, help="path to aegis.yml")
-    p.add_argument("--targets", default="{}",
-                   help='JSON object of scan targets, e.g. \'{"brand_domain":"acme.com"}\'')
+    p.add_argument(
+        "--targets",
+        default="{}",
+        help='JSON object of scan targets, e.g. \'{"brand_domain":"acme.com"}\'',
+    )
     p.add_argument("--out", default=None, help="output file (default: stdout)")
     p.set_defaults(func=cmd_scan)
 
