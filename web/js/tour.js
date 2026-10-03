@@ -54,6 +54,10 @@ window.AegisTour = (() => {
     overlay.querySelector(".tour-show").addEventListener("click", showTarget);
     overlay.querySelector(".tour-next").addEventListener("click", next);
     overlay.querySelector(".tour-skip").addEventListener("click", close);
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) close();
+    });
+    document.addEventListener("keydown", onKey);
     overlay.querySelector(".tour-again-box").addEventListener("change", (e) => {
       if (e.target.checked) {
         try {
@@ -91,11 +95,18 @@ window.AegisTour = (() => {
     try {
       localStorage.setItem(KEY, "1");
     } catch (err) {}
-    if (overlay) {
-      overlay.classList.add("tour-leaving");
-      setTimeout(() => overlay.remove(), 250);
-      overlay = null;
+    const el = overlay;
+    overlay = null;
+    if (el) {
+      el.classList.remove("tour-visible");
+      el.classList.add("tour-leaving");
+      setTimeout(() => el.remove(), 300);
     }
+    document.removeEventListener("keydown", onKey);
+  }
+
+  function onKey(e) {
+    if (e.key === "Escape") close();
   }
 
   function shouldShow() {
