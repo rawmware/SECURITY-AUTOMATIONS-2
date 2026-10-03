@@ -47,7 +47,10 @@ def test_full_kit_scores_high():
 def test_benign_login_below_threshold():
     # password input (30) + own-domain form post (not matched) -> below 35
     f = PhishKit().scan(
-        ctx({"https://example.com/login": CLEAN_LOGIN}, targets={"domain": "example.com"})
+        ctx(
+            {"https://example.com/login": CLEAN_LOGIN},
+            targets={"domain": "example.com"},
+        )
     )
     assert f == []
 
@@ -55,7 +58,7 @@ def test_benign_login_below_threshold():
 def test_boundary_score_fires():
     # hidden iframe (20) + brand impersonation (15) = 35 -> fires at >= min_score
     html = (
-        '<p>Please verify your account now</p>'
+        "<p>Please verify your account now</p>"
         '<iframe src="x" style="display: none"></iframe>'
     )
     f = PhishKit().scan(ctx({"https://suspicious.example/x": html}))
@@ -65,7 +68,7 @@ def test_boundary_score_fires():
 
 def test_min_score_option_raises_bar():
     html = (
-        '<p>Please verify your account now</p>'
+        "<p>Please verify your account now</p>"
         '<iframe src="x" style="display: none"></iframe>'
     )
     f = PhishKit().scan(ctx({"https://suspicious.example/x": html}, min_score=90))
