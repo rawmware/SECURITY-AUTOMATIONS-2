@@ -1,7 +1,5 @@
 """Hermetic tests for typo_watch (stubbed DNS/CT hooks, no network)."""
 
-import pytest
-
 from aegis.engines.base import ScanContext
 from aegis.engines.typo_watch import TypoWatch, generate_candidates
 
