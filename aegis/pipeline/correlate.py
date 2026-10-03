@@ -106,17 +106,14 @@ def correlate(scored: list[ScoredFinding], window_minutes: int = 60) -> list[Cas
                 break
             ei, ej = items[i].finding.entities, items[j].finding.entities
             if any(
-                k in ei and k in ej and str(ei[k]) == str(ej[k])
-                for k in _LINK_KEYS
+                k in ei and k in ej and str(ei[k]) == str(ej[k]) for k in _LINK_KEYS
             ):
                 union(i, j)
 
     groups: dict[int, list[ScoredFinding]] = {}
     for i in range(n):
         groups.setdefault(find(i), []).append(items[i])
-    ordered = sorted(
-        groups.values(), key=lambda g: min(s.finding.ts for s in g)
-    )
+    ordered = sorted(groups.values(), key=lambda g: min(s.finding.ts for s in g))
     return [_build_case(group) for group in ordered]
 
 
@@ -131,7 +128,9 @@ def _build_case(group: list[ScoredFinding]) -> Case:
     pattern = ENGINE_PATTERN.get(dominant, "security incident")
     primary_key, primary_value = _primary_entity(group)
     plural = "s" if len(group) != 1 else ""
-    title = f"Coordinated {pattern} against {primary_value} ({len(group)} finding{plural})"
+    title = (
+        f"Coordinated {pattern} against {primary_value} ({len(group)} finding{plural})"
+    )
 
     entities: dict = {}
     for f in findings:
@@ -187,8 +186,7 @@ def _narrative(group: list[ScoredFinding], primary_value: str) -> str:
     ordered_stages = sorted(stage_engines, key=_stage_rank)
     if len(ordered_stages) > 1:
         legs = [
-            f"{stage} ({', '.join(stage_engines[stage])})"
-            for stage in ordered_stages
+            f"{stage} ({', '.join(stage_engines[stage])})" for stage in ordered_stages
         ]
         second = "The attack chain moved from " + " to ".join(legs) + "."
     else:
@@ -212,8 +210,12 @@ def _narrative(group: list[ScoredFinding], primary_value: str) -> str:
         key=lambda mc: (-mc[1], mc[0]),
     )[:3]
     if repeated:
-        tail = "Shared indicators: " + ", ".join(
-            f"{marker} in {count}/{n} findings" for marker, count in repeated
-        ) + "."
+        tail = (
+            "Shared indicators: "
+            + ", ".join(
+                f"{marker} in {count}/{n} findings" for marker, count in repeated
+            )
+            + "."
+        )
         return " ".join([first, second, tail])
     return " ".join([first, second])
