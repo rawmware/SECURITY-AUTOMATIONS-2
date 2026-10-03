@@ -4,7 +4,7 @@ playbook speaks. Plain dataclasses — no framework required to use them."""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime
 
 from aegis.utils import new_id, utcnow
 
