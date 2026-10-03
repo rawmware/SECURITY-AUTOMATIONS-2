@@ -24,9 +24,7 @@ class Deduper:
         self._seen: dict[str, datetime] = {}
 
     def fingerprint(self, finding: Finding) -> str:
-        entities = "|".join(
-            f"{k}={v}" for k, v in sorted(finding.entities.items())
-        )
+        entities = "|".join(f"{k}={v}" for k, v in sorted(finding.entities.items()))
         material = f"{finding.engine}|{finding.title}|{entities}"
         return hashlib.sha256(material.encode("utf-8")).hexdigest()
 
