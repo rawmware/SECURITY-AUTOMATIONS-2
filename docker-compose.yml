@@ -1,0 +1,10 @@
+services:
+  aegis:
+    build: .
+    image: aegis:2.0.0
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./aegis.yml:/app/aegis.yml:ro
+    environment:
+      AEGIS_DRY_RUN: "true"
