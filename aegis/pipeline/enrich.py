@@ -19,8 +19,7 @@ def enrich(finding: Finding, ctx_assets: dict) -> dict:
     """
     values = [str(v) for v in finding.entities.values()]
     crits = [
-        max(1, min(5, int(ctx_assets.get(v, DEFAULT_CRITICALITY))))
-        for v in values
+        max(1, min(5, int(ctx_assets.get(v, DEFAULT_CRITICALITY)))) for v in values
     ]
     criticality = max(crits) if crits else DEFAULT_CRITICALITY
     return {
