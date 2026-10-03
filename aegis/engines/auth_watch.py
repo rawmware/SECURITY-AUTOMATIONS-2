@@ -50,8 +50,12 @@ class AuthWatch(Engine):
     )
 
     def scan(self, ctx: ScanContext) -> list[Finding]:
-        fail_threshold = int(self.opt("fail_threshold", ctx.option("fail_threshold", 8)))
-        window_minutes = int(self.opt("window_minutes", ctx.option("window_minutes", 10)))
+        fail_threshold = int(
+            self.opt("fail_threshold", ctx.option("fail_threshold", 8))
+        )
+        window_minutes = int(
+            self.opt("window_minutes", ctx.option("window_minutes", 10))
+        )
         spray_users = int(self.opt("spray_users", ctx.option("spray_users", 5)))
         spray_ips = int(self.opt("spray_ips", ctx.option("spray_ips", 5)))
 
