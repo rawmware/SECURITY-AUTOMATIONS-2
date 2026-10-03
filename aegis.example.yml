@@ -1,0 +1,52 @@
+# Example Aegis 2.0.0 configuration.
+# Option names below match the real engine code (verified against
+# aegis/engines/*.py). Per-engine sections are passed to each engine's
+# constructor via AegisConfig.engine_options(<engine_id>).
+#
+# NOTE: anomaly_mind, phish_kit, and secret_sentry read their options via
+# ctx.option(...) instead of the engine config. The bundled ScanRunner does
+# not currently merge per-engine config into ScanContext.options, so those
+# options only take effect when options are injected directly (tests, demo,
+# or a custom runner) — see the wiring note in docs/ARCHITECTURE.md.
+brand_domain: example.com
+alert_threshold: 40.0
+dry_run: true
+state_dir: state
+
+engines:
+  typo_watch:
+    enabled: true
+    max_candidates: 120   # max lookalike variants to check per run
+    min_score: 30         # minimum variant score to emit a finding
+  dns_sentinel:
+    enabled: true         # no per-engine options
+  tls_watch:
+    enabled: true         # no per-engine options
+  port_watch:
+    enabled: true         # no per-engine options
+  auth_watch:
+    enabled: true
+    fail_threshold: 8     # failed logins from one IP inside the window
+    window_minutes: 10
+    spray_users: 5        # distinct usernames from one IP = spray
+    spray_ips: 5          # distinct IPs hitting one user = distributed spray
+  url_intel:
+    enabled: true
+    min_score: 40         # heuristic score floor for a finding
+  secret_sentry:
+    enabled: true
+    allowlist: []         # regexes/paths to skip (via ctx.option)
+  cve_watch:
+    enabled: true         # no per-engine options
+  cloud_posture:
+    enabled: true         # no per-engine options
+  phish_kit:
+    enabled: true
+    min_score: 35         # kit-signature score floor (via ctx.option)
+  anomaly_mind:
+    enabled: true
+    alpha: 0.3            # EWMA smoothing factor (via ctx.option)
+    window: 20            # baseline window in samples (via ctx.option)
+    threshold: 3.0        # deviation threshold in stddevs (via ctx.option)
+  canary_trip:
+    enabled: true         # no per-engine options
