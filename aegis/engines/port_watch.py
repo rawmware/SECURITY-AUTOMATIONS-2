@@ -34,9 +34,20 @@ PORT_RISK = {
 DEFAULT_RISK = 40
 
 _PORT_NAMES = {
-    21: "FTP", 22: "SSH", 23: "Telnet", 25: "SMTP", 80: "HTTP", 443: "HTTPS",
-    445: "SMB", 3306: "MySQL", 3389: "RDP", 5432: "PostgreSQL",
-    5900: "VNC", 6379: "Redis", 9200: "Elasticsearch", 27017: "MongoDB",
+    21: "FTP",
+    22: "SSH",
+    23: "Telnet",
+    25: "SMTP",
+    80: "HTTP",
+    443: "HTTPS",
+    445: "SMB",
+    3306: "MySQL",
+    3389: "RDP",
+    5432: "PostgreSQL",
+    5900: "VNC",
+    6379: "Redis",
+    9200: "Elasticsearch",
+    27017: "MongoDB",
 }
 
 
@@ -90,7 +101,10 @@ class PortWatch(Engine):
                 svc = _PORT_NAMES.get(port, "unknown service")
                 findings.append(
                     self.finding(
-                        title=f"Expected service down: port {port} ({svc}) closed on {host}",
+                        title=(
+                            f"Expected service down: "
+                            f"port {port} ({svc}) closed on {host}"
+                        ),
                         score=10,
                         entities={"host": host, "port": port, "service": svc},
                         evidence={
