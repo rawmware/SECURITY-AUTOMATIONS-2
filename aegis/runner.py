@@ -20,13 +20,14 @@ from aegis.bus import Bus, default_bus
 from aegis.config import AegisConfig
 from aegis.engines import engine_names, get_engine, load_engines
 from aegis.engines.base import ScanContext
-from aegis.models import Case, Finding, ScoredFinding
+from aegis.models import Finding, ScoredFinding
 from aegis.pipeline.correlate import correlate
 from aegis.pipeline.dedupe import Deduper
 from aegis.pipeline.enrich import enrich
 from aegis.pipeline.score import score_finding
 
 log = logging.getLogger("aegis.runner")
+
 
 class ScanRunner:
     """Run the engine fleet against a target set and return pipeline results."""
@@ -135,8 +136,12 @@ class ScanRunner:
         try:
             cases = correlate(scored)
         except Exception as exc:  # noqa: BLE001
-            errors.append({"engine": "pipeline:correlate",
-                           "error": f"{type(exc).__name__}: {exc}"})
+            errors.append(
+                {
+                    "engine": "pipeline:correlate",
+                    "error": f"{type(exc).__name__}: {exc}",
+                }
+            )
             cases = []
 
         return {
