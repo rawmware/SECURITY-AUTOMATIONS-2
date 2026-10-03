@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aegis
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aegis
+  template:
+    metadata:
+      labels:
+        app: aegis
+    spec:
+      containers:
+        - name: aegis
+          image: ghcr.io/rawmware/aegis:2.0.0
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: aegis-secrets
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
