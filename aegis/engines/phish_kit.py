@@ -84,9 +84,7 @@ class PhishKit(Engine):
                     entities={"url": url},
                     evidence={
                         "matched_markers": matched,
-                        "marker_weights": {
-                            name: weights[name] for name in matched
-                        },
+                        "marker_weights": {name: weights[name] for name in matched},
                         "min_score": min_score,
                     },
                     recommendation=(
