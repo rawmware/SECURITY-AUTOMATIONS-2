@@ -1,14 +1,15 @@
 """Hermetic tests for secret_sentry."""
 
-import pytest
-
 from aegis.engines.base import ScanContext
 from aegis.engines.secret_sentry import SecretSentry
 
 AWS_KEY = "AKIAIOSFODNN7EXAMPLE"
 GITHUB_PAT = "ghp_" + "aB3dEf7hIj9kLmNoPqRsT1"
 AWS_SECRET_VALUE = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-PRIVATE_KEY = "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEA7b...\n-----END RSA PRIVATE KEY-----"
+PRIVATE_KEY = (
+    "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEA7b...\n"
+    "-----END RSA PRIVATE KEY-----"
+)
 HIGH_ENTROPY_VALUE = "sk_live_9f8Kq2mZxVbN4wRtY7uLp"
 
 
