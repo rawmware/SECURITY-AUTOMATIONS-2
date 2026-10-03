@@ -68,7 +68,7 @@ def generate_candidates(brand: str) -> list[str]:
 
     # 1. omission: drop one character
     for i in range(n):
-        add(f"{label[:i]}{label[i + 1:]}.{tld}")
+        add(f"{label[:i]}{label[i + 1 :]}.{tld}")
 
     # 2. insertion: add a common character at every position
     for i in range(n + 1):
@@ -78,16 +78,16 @@ def generate_candidates(brand: str) -> list[str]:
     # 3. substitution: swap a character for an adjacent-key neighbour
     for i, ch in enumerate(label):
         for sub in _ADJACENCY.get(ch, ()):
-            add(f"{label[:i]}{sub}{label[i + 1:]}.{tld}")
+            add(f"{label[:i]}{sub}{label[i + 1 :]}.{tld}")
 
     # 4. transposition: swap each adjacent pair
     for i in range(n - 1):
-        add(f"{label[:i]}{label[i + 1]}{label[i]}{label[i + 2:]}.{tld}")
+        add(f"{label[:i]}{label[i + 1]}{label[i]}{label[i + 2 :]}.{tld}")
 
     # 5. homoglyph: o->0, l->1, e->3, a->@
     for i, ch in enumerate(label):
         if ch in _HOMOGLYPHS:
-            add(f"{label[:i]}{_HOMOGLYPHS[ch]}{label[i + 1:]}.{tld}")
+            add(f"{label[:i]}{_HOMOGLYPHS[ch]}{label[i + 1 :]}.{tld}")
     full = "".join(_HOMOGLYPHS.get(ch, ch) for ch in label)
     if full != label:
         add(f"{full}.{tld}")
@@ -117,12 +117,12 @@ def generate_candidates(brand: str) -> list[str]:
         if ch in _VOWELS:
             for v in _VOWELS:
                 if v != ch:
-                    add(f"{label[:i]}{v}{label[i + 1:]}.{tld}")
+                    add(f"{label[:i]}{v}{label[i + 1 :]}.{tld}")
 
     # 12. double-letter: paypal -> payppal
     for i, ch in enumerate(label):
         if ch in string.ascii_lowercase:
-            add(f"{label[:i]}{ch}{ch}{label[i + 1:]}.{tld}")
+            add(f"{label[:i]}{ch}{ch}{label[i + 1 :]}.{tld}")
 
     return sorted(cands)
 
@@ -143,7 +143,9 @@ class TypoWatch(Engine):
         brand = ctx.targets.get("brand_domain") or ctx.data.get("brand_domain") or ""
         if not brand:
             return []
-        max_candidates = int(self.opt("max_candidates", ctx.option("max_candidates", 120)))
+        max_candidates = int(
+            self.opt("max_candidates", ctx.option("max_candidates", 120))
+        )
         min_score = float(self.opt("min_score", ctx.option("min_score", 30)))
         ct_log = set(ctx.data.get("ct_log", set()) or set())
         label = _split_brand(brand)[0]
