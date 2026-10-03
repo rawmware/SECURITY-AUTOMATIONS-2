@@ -88,7 +88,14 @@ def test_clean_cert_no_findings():
 
 def test_multiple_problems_one_finding_each():
     ctx = make_ctx(
-        [good_cert(not_after=iso(10), sig_alg="md5WithRSAEncryption", key_bits=1024, san_ok=False)]
+        [
+            good_cert(
+                not_after=iso(10),
+                sig_alg="md5WithRSAEncryption",
+                key_bits=1024,
+                san_ok=False,
+            )
+        ]
     )
     findings = TlsWatch().scan(ctx)
     assert sorted(f.score for f in findings) == [50, 70, 75, 95]
