@@ -42,9 +42,7 @@ async def stream_findings(websocket: WebSocket) -> None:
         )
         while True:
             try:
-                payload = await asyncio.wait_for(
-                    queue.get(), timeout=HEARTBEAT_SECONDS
-                )
+                payload = await asyncio.wait_for(queue.get(), timeout=HEARTBEAT_SECONDS)
                 await websocket.send_json({"type": "finding", "finding": payload})
             except asyncio.TimeoutError:
                 await websocket.send_json(
