@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Tests / lint
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Aegis runtime state and generated reports
+state/
+reports/
+
+# Secrets
+.env
+
+# Node (dashboard/web assets)
+node_modules/
+
+# macOS
+.DS_Store
