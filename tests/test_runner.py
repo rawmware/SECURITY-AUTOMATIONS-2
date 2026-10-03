@@ -86,6 +86,10 @@ def test_scored_findings_wrap_with_adjusted_scores():
         assert isinstance(scored, ScoredFinding)
         assert 0.0 <= scored.adjusted_score <= 100.0
         assert scored.adjusted_severity in (
-            "informational", "low", "medium", "high", "critical",
+            "informational",
+            "low",
+            "medium",
+            "high",
+            "critical",
         )
         assert scored.factors, "score stage should record its factors"
