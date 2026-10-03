@@ -31,7 +31,9 @@ def parse_version(raw: str) -> tuple[int, ...]:
     return tuple(parts) if parts else (0,)
 
 
-def _pad(a: tuple[int, ...], b: tuple[int, ...]) -> tuple[tuple[int, ...], tuple[int, ...]]:
+def _pad(
+    a: tuple[int, ...], b: tuple[int, ...]
+) -> tuple[tuple[int, ...], tuple[int, ...]]:
     width = max(len(a), len(b))
     return (
         tuple(a) + (0,) * (width - len(a)),
