@@ -2,8 +2,8 @@
 
 from datetime import datetime, timedelta, timezone
 
-from aegis.engines.base import ScanContext
 from aegis.engines.auth_watch import AuthWatch
+from aegis.engines.base import ScanContext
 
 BASE = datetime(2026, 10, 3, 12, 0, 0, tzinfo=timezone.utc)
 
