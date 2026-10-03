@@ -36,6 +36,7 @@ class SoarRunRequest(BaseModel):
 # SOAR bridging (defensive: soar package may not be built yet)
 # --------------------------------------------------------------------------
 
+
 def _library_dir() -> Path:
     return Path(__file__).resolve().parent.parent / "soar" / "library"
 
@@ -104,6 +105,7 @@ def _ensure_engines_loaded() -> None:
 # --------------------------------------------------------------------------
 # Routes
 # --------------------------------------------------------------------------
+
 
 @router.get("/health")
 def health() -> dict:
