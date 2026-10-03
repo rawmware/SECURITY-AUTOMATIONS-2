@@ -41,7 +41,12 @@ def _finish(action: str, params: dict, dry_run: bool, description: str) -> dict:
         else f"executed: {description} (simulated)"
     )
     _audit(action, params, result, dry_run)
-    return {"action": action, "params": dict(params), "result": result, "dry_run": dry_run}
+    return {
+        "action": action,
+        "params": dict(params),
+        "result": result,
+        "dry_run": dry_run,
+    }
 
 
 def _require_str(name: str, value: Any, label: str) -> str:
